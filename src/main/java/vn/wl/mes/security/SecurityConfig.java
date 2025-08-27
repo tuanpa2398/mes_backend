@@ -33,6 +33,8 @@ public class SecurityConfig {
 
     @Bean
     PasswordEncoder passwordEncoder() {
+//    	System.out.println(new BCryptPasswordEncoder().encode("123456"));
+//    	$2a$10$ptq0MU93Tygi7yn9pPnASeYR8PitTHs8XWEFAs/ygBcoQYIzXWfES
         return new BCryptPasswordEncoder();
     }
 }
