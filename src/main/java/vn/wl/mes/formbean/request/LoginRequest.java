@@ -1,4 +1,4 @@
-package vn.wl.mes.formbean;
+package vn.wl.mes.formbean.request;
 
 import lombok.Data;
 
