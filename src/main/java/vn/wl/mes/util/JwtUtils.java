@@ -1,0 +1,51 @@
+package vn.wl.mes.util;
+
+import io.jsonwebtoken.*;
+import io.jsonwebtoken.security.Keys;
+import vn.wl.mes.model.user.User;
+
+import org.springframework.stereotype.Component;
+
+import java.security.Key;
+import java.util.Date;
+
+@Component
+public class JwtUtils {
+	private final long EXPIRATION = 1000 * 60 * 60 * 12; // 12h
+
+	private final String SECRET = "cc7564b60a812477f6956491545502b3981f204bf36ae12cc839a1cfdafb9596";
+	
+	private final Key key = Keys.hmacShaKeyFor(SECRET.getBytes());
+	
+	private String CLAIM_USERNAME = "username";
+
+    public String generateToken(User user) {
+        Date now = new Date();
+        return Jwts.builder()
+                   .setSubject(Long.toString(user.getId()))
+                   .claim(CLAIM_USERNAME, user.getUsername())
+                   .setIssuedAt(now)
+                   .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION))
+                   .signWith(key, SignatureAlgorithm.HS256)
+                   .compact();
+    }
+    
+    public Long extractUserId(String token) {
+        var id = Jwts.parserBuilder().setSigningKey(key).build()
+                .parseClaimsJws(token)
+                .getBody()
+                .getSubject();
+        return Long.valueOf(id);
+    }
+    
+    public String extractUsername(String token) {
+    	Claims claims = Jwts.parserBuilder().setSigningKey(key).build()
+                .parseClaimsJws(token)
+                .getBody();
+        return claims.get(CLAIM_USERNAME).toString();
+    }
+    
+    public void validateToken(String token) {
+    	Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
+    }
+}

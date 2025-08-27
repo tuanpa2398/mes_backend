@@ -4,5 +4,12 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
         
 <mapper namespace="vn.wl.mes.mapper.UserMapper">
-
+	<select id="getUserByUsernameOrEmail" parameterType="string" resultType="User">
+	    SELECT 
+	    	*
+    	FROM 
+    		users
+    	WHERE 
+    		username = #{value} OR email = #{value}
+	</select>
 </mapper>
