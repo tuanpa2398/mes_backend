@@ -39,13 +39,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 						userDetails.getAuthorities());
 				SecurityContextHolder.getContext().setAuthentication(auth);
 			} catch (io.jsonwebtoken.ExpiredJwtException e) {
-				setErrorResponse(response, HttpServletResponse.SC_UNAUTHORIZED, "Token expired");
+				setErrorResponse(response, HttpServletResponse.SC_UNAUTHORIZED, "TOKEN_EXPIRED");
 				return;
 			} catch (io.jsonwebtoken.security.SignatureException e) {
 				setErrorResponse(response, HttpServletResponse.SC_UNAUTHORIZED, "Invalid signature");
 				return;
 			} catch (io.jsonwebtoken.MalformedJwtException e) {
-				setErrorResponse(response, HttpServletResponse.SC_BAD_REQUEST, "Malformed token");
+				setErrorResponse(response, HttpServletResponse.SC_UNAUTHORIZED, "Malformed token");
 				return;
 			} catch (Exception e) {
 				setErrorResponse(response, HttpServletResponse.SC_UNAUTHORIZED, "Invalid token");

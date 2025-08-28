@@ -9,7 +9,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class ApiPrefixConfig implements WebMvcConfigurer{
 	@Override
     public void configurePathMatch(PathMatchConfigurer configurer) {
-        configurer.addPathPrefix("api/v1", c -> 
+        configurer.addPathPrefix("api/", c -> 
             c.isAnnotationPresent(RestController.class)
         );
     }
