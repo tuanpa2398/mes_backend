@@ -100,29 +100,29 @@ public class AuthController {
 		    
 			if(user == null) {
 			    response.put("status", false);
-			    response.put("message", "Sai thông tin đăng nhập.");
+			    response.put("message", "Không tìm thấy người dùng.");
 			    response.put("timestamp", System.currentTimeMillis());
 				return new ResponseEntity<>(response, HttpStatus.OK);
 			}
 
 		 // Thông tin chính xác		
 			String jwt = jwtUtils.generateToken(user);
-			String newRefreshToken = jwtUtils.generateRefreshToken(user);
-			
-			LoginResponse loginResponse = new LoginResponse();
-			loginResponse.setId(user.getId());
-			loginResponse.setUsername(user.getUsername());
-			loginResponse.setRole(user.getRole());
-			loginResponse.setFirst_name(user.getFirst_name());
-			loginResponse.setLast_name(user.getLast_name());
-			loginResponse.setEmail(user.getEmail());
-			loginResponse.setPlant(user.getPlant());
-			loginResponse.setBranch(user.getBranch());
+//			String newRefreshToken = jwtUtils.generateRefreshToken(user);
+//			
+//			LoginResponse loginResponse = new LoginResponse();
+//			loginResponse.setId(user.getId());
+//			loginResponse.setUsername(user.getUsername());
+//			loginResponse.setRole(user.getRole());
+//			loginResponse.setFirst_name(user.getFirst_name());
+//			loginResponse.setLast_name(user.getLast_name());
+//			loginResponse.setEmail(user.getEmail());
+//			loginResponse.setPlant(user.getPlant());
+//			loginResponse.setBranch(user.getBranch());
 			
 			response.put("status", true);
-			response.put("user", loginResponse);
+//			response.put("user", loginResponse);
 			response.put("access_token", jwt);
-			response.put("refresh_token", newRefreshToken);
+//			response.put("refresh_token", newRefreshToken);
 			
 			return new ResponseEntity<>(response, HttpStatus.OK);
 		} catch (Exception e) {
