@@ -12,4 +12,14 @@
     	WHERE 
     		username = #{value} OR email = #{value}
 	</select>
+	
+	<select id="getUserByUsername" parameterType="string" resultType="User">
+	    SELECT 
+	    	*
+    	FROM 
+    		users
+    	WHERE 
+    		username = #{value}
+	</select>
 </mapper>
+

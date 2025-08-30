@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -62,17 +61,10 @@ public class AuthController {
 		String jwt = jwtUtils.generateToken(user);
 		String refreshToken = jwtUtils.generateRefreshToken(user);
 		
-		LoginResponse loginResponse = new LoginResponse();
-		loginResponse.setId(user.getId());
-		loginResponse.setUsername(user.getUsername());
-		loginResponse.setRole(user.getRole());
-		loginResponse.setFirst_name(user.getFirst_name());
-		loginResponse.setLast_name(user.getLast_name());
-		loginResponse.setEmail(user.getEmail());
-		loginResponse.setPlant(user.getPlant());
-		loginResponse.setBranch(user.getBranch());
+		LoginResponse loginResponse = new LoginResponse(user);
 		
 		response.put("status", true);
+		response.put("message", "Đăng nhập thành công.");
 		response.put("user", loginResponse);
 		response.put("access_token", jwt);
 		response.put("refresh_token", refreshToken);
@@ -107,22 +99,9 @@ public class AuthController {
 
 		 // Thông tin chính xác		
 			String jwt = jwtUtils.generateToken(user);
-//			String newRefreshToken = jwtUtils.generateRefreshToken(user);
-//			
-//			LoginResponse loginResponse = new LoginResponse();
-//			loginResponse.setId(user.getId());
-//			loginResponse.setUsername(user.getUsername());
-//			loginResponse.setRole(user.getRole());
-//			loginResponse.setFirst_name(user.getFirst_name());
-//			loginResponse.setLast_name(user.getLast_name());
-//			loginResponse.setEmail(user.getEmail());
-//			loginResponse.setPlant(user.getPlant());
-//			loginResponse.setBranch(user.getBranch());
 			
 			response.put("status", true);
-//			response.put("user", loginResponse);
 			response.put("access_token", jwt);
-//			response.put("refresh_token", newRefreshToken);
 			
 			return new ResponseEntity<>(response, HttpStatus.OK);
 		} catch (Exception e) {

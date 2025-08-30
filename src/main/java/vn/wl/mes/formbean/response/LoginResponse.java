@@ -1,6 +1,7 @@
 package vn.wl.mes.formbean.response;
 
 import lombok.Data;
+import vn.wl.mes.model.user.User;
 
 @Data
 public class LoginResponse {
@@ -14,4 +15,15 @@ public class LoginResponse {
     private String plant;
     private String branch;
     private String[] permissions;
+    
+    public LoginResponse(User u) {
+    	this.setId(u.getId());
+    	this.setUsername(u.getUsername());
+    	this.setRole(u.getRole());
+    	this.setFirst_name(u.getFirst_name());
+    	this.setLast_name(u.getLast_name());
+    	this.setEmail(u.getEmail());
+    	this.setPlant(u.getPlant());
+    	this.setBranch(u.getBranch());
+    }
 }

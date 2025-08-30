@@ -14,6 +14,7 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public User getUserByUsernameOrEmail(String pattern) {
+		
 		return userMapper.getUserByUsernameOrEmail(pattern);
 	}
 

@@ -35,6 +35,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 				jwtUtil.validateToken(token);
 				String username = jwtUtil.extractUsername(token);
 				UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+				
+				if(userDetails == null) {
+					setErrorResponse(response, HttpServletResponse.SC_UNAUTHORIZED, "NOT_FOUND_USER");
+				}
+				
 				UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(userDetails, null,
 						userDetails.getAuthorities());
 				SecurityContextHolder.getContext().setAuthentication(auth);
