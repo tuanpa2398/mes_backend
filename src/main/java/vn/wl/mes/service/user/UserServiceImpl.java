@@ -3,7 +3,7 @@ package vn.wl.mes.service.user;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import vn.wl.mes.mapper.UserMapper;
+import vn.wl.mes.mapper.postgre.UserMapper;
 import vn.wl.mes.model.user.User;
 
 @Service

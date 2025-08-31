@@ -1,0 +1,27 @@
+{"properties": [
+  {
+    "name": "spring.datasource.postgre.url",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.datasource.postgre.url'"
+  },
+  {
+    "name": "spring.datasource.postgre.username",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.datasource.postgre.username'"
+  },
+  {
+    "name": "spring.datasource.postgre.password",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.datasource.postgre.password'"
+  },
+  {
+    "name": "spring.datasource.postgre.driver-class-name",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.datasource.postgre.driver-class-name'"
+  },
+  {
+    "name": "spring.datasource.postgre.jdbc-url",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.datasource.postgre.jdbc-url'"
+  }
+]}

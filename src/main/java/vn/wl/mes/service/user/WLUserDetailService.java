@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import vn.wl.mes.mapper.UserMapper;
+import vn.wl.mes.mapper.postgre.UserMapper;
 import vn.wl.mes.model.user.User;
 
 @Service

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+        
+<mapper namespace="vn.wl.mes.mapper.postgre.UserMapper">
+	<select id="getUserByUsernameOrEmail" parameterType="string" resultType="vn.wl.mes.model.user.User">
+	    SELECT 
+	    	*
+    	FROM 
+    		users
+    	WHERE 
+    		username = #{value} OR email = #{value}
+	</select>
+	
+	<select id="getUserByUsername" parameterType="string" resultType="vn.wl.mes.model.user.User">
+	    SELECT 
+	    	*
+    	FROM 
+    		users
+    	WHERE 
+    		username = #{value}
+	</select>
+</mapper>
+

@@ -1,4 +1,4 @@
-package vn.wl.mes.mapper;
+package vn.wl.mes.mapper.postgre;
 
 import org.apache.ibatis.annotations.Mapper;
 

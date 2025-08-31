@@ -38,38 +38,43 @@ public class AuthController {
 	
 	@PostMapping("/login")
 	public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
-		User user = userService.getUserByUsernameOrEmail(loginRequest.getPattern());
-		
 		Map<String, Object> response = new HashMap<>();
-		
-		if(user == null) {
-		    response.put("status", false);
-		    response.put("message", "Sai thông tin đăng nhập.");
-		    response.put("timestamp", System.currentTimeMillis());
+		try {
+			User user = userService.getUserByUsernameOrEmail(loginRequest.getPattern());
+			
+			if(user == null) {
+			    response.put("status", false);
+			    response.put("message", "Sai thông tin đăng nhập.");
+			    response.put("timestamp", System.currentTimeMillis());
+				return new ResponseEntity<>(response, HttpStatus.OK);
+			}
+			
+			if(!verifyPassword(loginRequest.getPassword(), user.getPassword())) {
+				response.put("status", false);
+			    response.put("message", "Mật khẩu không chính xác.");
+			    response.put("timestamp", System.currentTimeMillis());
+				return new ResponseEntity<>(response, HttpStatus.OK);
+			}
+			
+			
+			// Thông tin chính xác		
+			String jwt = jwtUtils.generateToken(user);
+			String refreshToken = jwtUtils.generateRefreshToken(user);
+			
+			LoginResponse loginResponse = new LoginResponse(user);
+			
+			response.put("status", true);
+			response.put("message", "Đăng nhập thành công.");
+			response.put("user", loginResponse);
+			response.put("access_token", jwt);
+			response.put("refresh_token", refreshToken);
+			
 			return new ResponseEntity<>(response, HttpStatus.OK);
-		}
-		
-		if(!verifyPassword(loginRequest.getPassword(), user.getPassword())) {
+		} catch (Exception e) {
 			response.put("status", false);
-		    response.put("message", "Mật khẩu không chính xác.");
-		    response.put("timestamp", System.currentTimeMillis());
+			response.put("message", "Có lỗi sảy ra. Vui lòng thử lại sau.");
 			return new ResponseEntity<>(response, HttpStatus.OK);
 		}
-		
-		
-		// Thông tin chính xác		
-		String jwt = jwtUtils.generateToken(user);
-		String refreshToken = jwtUtils.generateRefreshToken(user);
-		
-		LoginResponse loginResponse = new LoginResponse(user);
-		
-		response.put("status", true);
-		response.put("message", "Đăng nhập thành công.");
-		response.put("user", loginResponse);
-		response.put("access_token", jwt);
-		response.put("refresh_token", refreshToken);
-		
-		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 	
 	@PostMapping("/refresh-token")
