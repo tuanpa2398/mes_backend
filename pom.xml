@@ -79,6 +79,11 @@
 		    <version>1.18.34</version><!--$NO-MVN-MAN-VER$--> <!-- nhớ dùng bản mới -->
 		    <scope>provided</scope>
 		</dependency>
+		<dependency>
+		    <groupId>com.sap.cloud.db.jdbc</groupId>
+		    <artifactId>ngdbc</artifactId>
+		    <version>2.16.14</version> <!-- kiểm tra version mới nhất -->
+		</dependency>
 	</dependencies>
 
 	<build>
