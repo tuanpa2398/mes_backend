@@ -81,9 +81,9 @@ public class AuthController {
 			RefreshTokenResponseDto refreshTokenResponseDto = new RefreshTokenResponseDto(jwt);
 			return refreshTokenResponseDto;
 		} catch (io.jsonwebtoken.ExpiredJwtException e) {
-			throw new AppException(401, "Phiên đăng nhập hết hạn. Vui lòng đăng nhập lại.", "TOKEN_EXPIRED");
+			throw new AppException(401, "Phiên đăng nhập hết hạn. Vui lòng đăng nhập lại.");
 		}  catch (Exception e) {
-			throw new AppException(401, "Phiên đăng nhập hết hạn. Vui lòng đăng nhập lại.", "TOKEN_INVALID");
+			throw new AppException(401, "Phiên đăng nhập hết hạn. Vui lòng đăng nhập lại.");
 		}
 	}
 	
