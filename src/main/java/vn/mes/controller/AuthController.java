@@ -65,7 +65,7 @@ public class AuthController {
 	    	jwtUtils.validateToken(refreshToken);
 	    	
 	    	if (!"refresh".equals(jwtUtils.extractTokenType(refreshToken))) {
-	    		throw new AppException(401, "Phiên đăng nhập hết hạn. Vui lòng đăng nhập lại.", "TOKEN_INVALID");
+	    		throw new AppException(401, "Phiên đăng nhập hết hạn. Vui lòng đăng nhập lại.");
 		    }
 
 		    String username = jwtUtils.extractUsername(refreshToken);
@@ -73,7 +73,7 @@ public class AuthController {
 		    User user = userService.getUserByUsernameOrEmail(username);
 		    
 			if(user == null) {
-				throw new AppException(401, "Phiên đăng nhập hết hạn. Vui lòng đăng nhập lại.", "TOKEN_INVALID");
+				throw new AppException(401, "Phiên đăng nhập hết hạn. Vui lòng đăng nhập lại.");
 			}
 			
 			// Thông tin chính xác		
