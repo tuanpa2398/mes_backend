@@ -49,6 +49,6 @@ public class GlobalExceptionHandler {
     
     @ExceptionHandler(AppException.class)
     public ResponseEntity<GlobalErrorResponse> handleAppException(AppException ex, HttpServletRequest request) {
-    	return ResponseEntity.status(ex.getStatus()).body(new GlobalErrorResponse(ex.getStatus(), "App Error Exception", ex.getMessage(), request.getRequestURI()));
+    	return ResponseEntity.status(ex.getStatus()).body(new GlobalErrorResponse(ex.getStatus(), ex.getError(), ex.getMessage(), request.getRequestURI()));
     }
 }
