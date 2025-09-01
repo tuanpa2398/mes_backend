@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.servlet.http.HttpServletRequest;
 import vn.wl.mes.formbean.request.LoginRequest;
 import vn.wl.mes.formbean.response.ApiResponseDto;
 import vn.wl.mes.formbean.response.UserLoginResponseDto;
@@ -31,7 +32,7 @@ public class AuthController {
 	private PasswordEncoder passwordEncoder;
 	
 	@PostMapping("/login")
-	public ResponseEntity<ApiResponseDto> login(@RequestBody LoginRequest loginRequest) {
+	public ResponseEntity<ApiResponseDto> login(@RequestBody LoginRequest loginRequest, HttpServletRequest request) {
 		ApiResponseDto res = new ApiResponseDto();
 		res.setTimestamp(System.currentTimeMillis());
 		
@@ -43,9 +44,11 @@ public class AuthController {
 			return new ResponseEntity<>(res, HttpStatus.OK);
 		}
 		
-		if(!verifyPassword(loginRequest.getPassword(), user.getPassword())) {
+		boolean verifyPassword = verifyPassword(loginRequest.getPassword(), user.getPassword());
+		
+		if(!verifyPassword) {
 			res.setStatus(false);
-		    res.setMessage("Mật khẩu không chính xác.");
+		    res.setMessage("Sai thông tin đăng nhập.");
 			return new ResponseEntity<>(res, HttpStatus.OK);
 		}
 		
@@ -57,6 +60,7 @@ public class AuthController {
 		
 		res.setStatus(true);
 	    res.setMessage("Đăng nhập thành công.");
+	    res.setPath(request.getRequestURI());
 	    res.getData().put("user", loginResponse);
 	    res.getData().put("access_token", jwt);
 	    res.getData().put("refresh_token", refreshToken);
@@ -66,7 +70,7 @@ public class AuthController {
 	
 	
 	@PostMapping("/refresh-token")
-	public ResponseEntity<ApiResponseDto> refreshToken(@RequestBody Map<String, String> request) {
+	public ResponseEntity<ApiResponseDto> refreshToken(@RequestBody Map<String, String> request, HttpServletRequest httpServletRequest) {
 	    String refreshToken = request.get("refreshToken");
 	    
 	    ApiResponseDto res = new ApiResponseDto();
@@ -94,6 +98,7 @@ public class AuthController {
 		
 		res.setStatus(true);
 	    res.setMessage("Đăng nhập thành công.");
+	    res.setPath(httpServletRequest.getRequestURI());
 	    res.getData().put("access_token", jwt);
 		
 		return new ResponseEntity<>(res, HttpStatus.OK);

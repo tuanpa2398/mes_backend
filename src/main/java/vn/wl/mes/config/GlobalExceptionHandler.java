@@ -44,12 +44,6 @@ public class GlobalExceptionHandler {
     // Bắt Exception chung và trả về 503
     @ExceptionHandler(ServiceUnavailableException.class)
     public ResponseEntity<Object> handleServiceUnavailable(ServiceUnavailableException ex, HttpServletRequest request) {
-    	return ResponseEntity.badRequest().body(new GlobalErrorResponse(503, "Service Unavailable", ex.getMessage(), request.getRequestURI()));
-    }
-    
-    // Xử lý tất cả lỗi còn lại -> 500
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<Object> handleGlobalException(Exception ex, HttpServletRequest request) {
-    	return ResponseEntity.badRequest().body(new GlobalErrorResponse(500, "Internal Server Error", ex.getMessage(), request.getRequestURI()));
+    	return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(new GlobalErrorResponse(503, "Service Unavailable", ex.getMessage(), request.getRequestURI()));
     }
 }

@@ -36,27 +36,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 				String username = jwtUtil.extractUsername(token);
 				UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 				
-				if(userDetails == null) {
-					setErrorResponse(response, HttpServletResponse.SC_UNAUTHORIZED, "NOT_FOUND_USER");
-				}
-				
-				UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(userDetails, null,
-						userDetails.getAuthorities());
+				UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(userDetails, null, null);
 				SecurityContextHolder.getContext().setAuthentication(auth);
 			} catch (io.jsonwebtoken.ExpiredJwtException e) {
 				setErrorResponse(response, HttpServletResponse.SC_UNAUTHORIZED, "TOKEN_EXPIRED");
 				return;
-			} catch (io.jsonwebtoken.security.SignatureException e) {
-				setErrorResponse(response, HttpServletResponse.SC_UNAUTHORIZED, "Invalid signature");
-				return;
-			} catch (io.jsonwebtoken.MalformedJwtException e) {
-				setErrorResponse(response, HttpServletResponse.SC_UNAUTHORIZED, "Malformed token");
-				return;
-			} catch (Exception e) {
-				setErrorResponse(response, HttpServletResponse.SC_UNAUTHORIZED, "Invalid token");
+			}  catch (Exception e) {
+				setErrorResponse(response, HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
 				return;
 			}
 		}
+		
+		
 		filterChain.doFilter(request, response);
 	}
 

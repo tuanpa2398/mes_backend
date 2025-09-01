@@ -14,5 +14,6 @@ public class ApiResponseDto {
 	private boolean status = true;
 	private String message = "";
 	private long timestamp;
+	private String path;
 	private Map<String, Object> data = new HashMap<>();
 }

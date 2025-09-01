@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.servlet.http.HttpServletRequest;
 import vn.wl.mes.formbean.response.ApiResponseDto;
 import vn.wl.mes.formbean.response.UserLoginResponseDto;
 import vn.wl.mes.model.user.User;
@@ -21,7 +22,7 @@ public class UserController {
 	private UserService userService;
 	
 	@GetMapping("/get-current-user")
-	public ResponseEntity<ApiResponseDto> getCurrentUser(@AuthenticationPrincipal UserDetails user){		
+	public ResponseEntity<ApiResponseDto> getCurrentUser(@AuthenticationPrincipal UserDetails user, HttpServletRequest httpServletRequest){		
 		ApiResponseDto res = new ApiResponseDto();
 		
 		if(user == null) {
@@ -42,6 +43,7 @@ public class UserController {
 		
 		res.setStatus(true);
 		res.setMessage("Lấy thông tin Người dùng hệ thống thành công!!.");
+		res.setPath(httpServletRequest.getRequestURI());
 		res.getData().put("user", loginResponse);
 		
 		return new ResponseEntity<>(res, HttpStatus.OK);
