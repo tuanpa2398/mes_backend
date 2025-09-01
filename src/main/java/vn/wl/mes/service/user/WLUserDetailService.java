@@ -16,16 +16,20 @@ public class WLUserDetailService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		User user = userMapper.getUserByUsername(username);
-		
-		if(user == null) {
+		try {
+			User user = userMapper.getUserByUsername(username);
+			
+			if(user == null) {
+				return null;
+			}
+
+			return org.springframework.security.core.userdetails.User.builder().username(user.getUsername())
+					.password(user.getPassword()) 
+					.roles(user.getRole())
+					.build();
+		} catch (Exception e) {
 			return null;
 		}
-
-		return org.springframework.security.core.userdetails.User.builder().username(user.getUsername())
-				.password(user.getPassword()) 
-				.roles(user.getRole())
-				.build();
 	}
 
 }

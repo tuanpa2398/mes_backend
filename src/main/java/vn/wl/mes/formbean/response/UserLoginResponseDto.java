@@ -4,7 +4,7 @@ import lombok.Data;
 import vn.wl.mes.model.user.User;
 
 @Data
-public class LoginResponse {
+public class UserLoginResponseDto {
 	private Long id;
 	private String username;
 	private String role;
@@ -16,7 +16,7 @@ public class LoginResponse {
     private String branch;
     private String[] permissions;
     
-    public LoginResponse(User u) {
+    public UserLoginResponseDto(User u) {
     	this.setId(u.getId());
     	this.setUsername(u.getUsername());
     	this.setRole(u.getRole());

@@ -1,8 +1,5 @@
 package vn.wl.mes.controller.mes;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import vn.wl.mes.formbean.response.LoginResponse;
+import vn.wl.mes.formbean.response.ApiResponseDto;
+import vn.wl.mes.formbean.response.UserLoginResponseDto;
 import vn.wl.mes.model.user.User;
 import vn.wl.mes.service.user.UserService;
 
@@ -22,25 +20,30 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
-	
 	@GetMapping("/get-current-user")
-	public ResponseEntity<?> getCurrentUser(@AuthenticationPrincipal UserDetails user){
-		Map<String, Object> response = new HashMap<>();
+	public ResponseEntity<ApiResponseDto> getCurrentUser(@AuthenticationPrincipal UserDetails user){		
+		ApiResponseDto res = new ApiResponseDto();
 		
 		if(user == null) {
-			response.put("status", false);
-			response.put("message", "Không tìm thấy User hệ thống");
-			return new ResponseEntity<>(response, HttpStatus.OK);
+			res.setStatus(false);
+			res.setMessage("Không tìm thấy User hệ thống");
+			return new ResponseEntity<>(res, HttpStatus.OK);
 		}
 		
 		User u = userService.getUserByUsernameOrEmail(user.getUsername());
 		
-		LoginResponse loginResponse = new LoginResponse(u);
+		if(u == null) {			    
+		    res.setStatus(false);
+		    res.setMessage("Lấy thông tin Người dùng hệ thống thất bại.");
+			return new ResponseEntity<>(res, HttpStatus.OK);
+		}
 		
-		response.put("status", true);
-		response.put("message", "Lấy thông tin Người dùng hệ thống thành công!!.");
-		response.put("user", loginResponse);
+		UserLoginResponseDto loginResponse = new UserLoginResponseDto(u);
 		
-		return new ResponseEntity<>(response, HttpStatus.OK);
+		res.setStatus(true);
+		res.setMessage("Lấy thông tin Người dùng hệ thống thành công!!.");
+		res.getData().put("user", loginResponse);
+		
+		return new ResponseEntity<>(res, HttpStatus.OK);
 	}
 }
